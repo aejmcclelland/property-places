@@ -5,5 +5,9 @@
         "./*"
       ]
     }
-  }
+  },
+  "include": [
+    "**/*",
+    "/Users/andrewmcclelland/Documents/property-places/app/pages/page.jsx"
+  ]
 }
