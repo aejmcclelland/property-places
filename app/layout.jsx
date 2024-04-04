@@ -20,7 +20,6 @@ const MainLayout = ({ children }) => {
             </html>
         </AuthProvider>
 
-
     )
 }
 
