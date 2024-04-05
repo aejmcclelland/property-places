@@ -14,6 +14,7 @@ const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const pathname = usePathname();
     const { data: session } = useSession();
+    const profileImage = session?.user?.image;
     const [providers, setProviders] = useState(null);
 
     useEffect(() => {
@@ -82,7 +83,7 @@ const Navbar = () => {
                                         } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}>
                                     Properties
                                 </Link>
-                                {isLoggedIn && (
+                                {session && (
                                     <Link
                                         href='/properties/add'
                                         className={`${pathname === '/properties/add' ? 'bg-black' : ''
@@ -97,6 +98,7 @@ const Navbar = () => {
                     {/* <!-- Right Side Menu (Logged Out) --> */}
 
                     {!session && (
+
                         <div className='hidden sm:block sm:ml-6'>
                             <div className='flex items-center'>
                                 {providers &&
@@ -112,7 +114,7 @@ const Navbar = () => {
                                     ))}
                             </div>
                         </div>
-                    )};
+                    )}
 
 
                     {/* <!-- Right Side Menu (Logged In) --> */}
@@ -158,8 +160,10 @@ const Navbar = () => {
                                             <span className='sr-only'>Open user menu</span>
                                             <Image
                                                 className='h-8 w-8 rounded-full'
-                                                src={profileDefault}
-                                                alt=''
+                                                src={profileImage || profileDefault}
+                                                width={40}
+                                                height={40}
+                                                alt='Profile Picture'
                                             />
                                         </button>
                                     </div>
@@ -190,10 +194,15 @@ const Navbar = () => {
                                                 Saved Properties
                                             </Link>
                                             <button
+                                                onClick={() => {
+                                                    setIsProfileMenuOpen(false);
+                                                    signOut();
+                                                }}
                                                 className='block px-4 py-2 text-sm text-gray-700'
                                                 role='menuitem'
                                                 tabIndex='-1'
-                                                id='user-menu-item-2'>
+                                                id='user-menu-item-2'
+                                            >
                                                 Sign Out
                                             </button>
                                         </div>
@@ -244,7 +253,7 @@ const Navbar = () => {
                 </div>
             )}
         </nav>
-    );
-};
+    )
+}
 
 export default Navbar;

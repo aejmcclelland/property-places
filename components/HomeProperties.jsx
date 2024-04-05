@@ -1,24 +1,27 @@
-import properties from '@/properties.json';
+import { fetchProperties } from '@/utils/requests';
 import PropertyCard from '@/components/PropertyCard';
 import Link from 'next/link'
 
-async function fetchProperties() {
-    try {
-        const res = await fetch('http://localhost:3000/api/properties', { cache: 'no-store' });
+// async function fetchProperties() {
+//     try {
+//         const res = await fetch('http://localhost:3000/api/properties', { cache: 'no-store' });
 
-        if (!res.ok) {
-            throw new Error('Failed to fetch dats');
-        }
-        return await res.json();
-    } catch (error) {
-        console(error);
-    }
-}
+//         if (!res.ok) {
+//             throw new Error('Failed to fetch dats');
+//         }
+//         return await res.json();
+//     } catch (error) {
+//         console(error);
+//     }
+// }
 
-const HomeProperties = () => {
+const HomeProperties = async () => {
+    const properties = await fetchProperties();
+
     const recentProperties = properties
         .sort(() => Math.random() - Math.random())
         .slice(0, 3);
+
 
     return (
         <>
@@ -28,12 +31,17 @@ const HomeProperties = () => {
                         Recent Properties
                     </h2>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-                        {recentProperties.map((property, index) => (
-                            <PropertyCard property={property} key={index} />
-                        ))}
+                        {recentProperties.length === 0 ? (
+                            <p>No Properties Found</p>
+                        ) : (
+                            recentProperties.map((property) => (
+                                <PropertyCard key={property._id} property={property} />
+                            ))
+                        )}
                     </div>
                 </div>
             </section>
+
             <section className='m-auto max-w-lg my-10 px-6'>
                 <Link
                     href='/properties'
