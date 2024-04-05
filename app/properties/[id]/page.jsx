@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import PropertyDetails from '@/components/PropertyDetails';
 import Spinner from '@/components/Spinner';
+import PropertyImages from "@/components/PropertyImages";
 import {
     FaPaperPlane,
     FaBookmark,
@@ -130,6 +131,7 @@ const PropertyPage = () => {
                             </div>
                         </div>
                     </section>
+                    <PropertyImages images={property.images} />
                 </>
             )}
         </>
