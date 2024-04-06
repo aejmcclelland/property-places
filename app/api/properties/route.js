@@ -93,7 +93,7 @@ export const POST = async (request) => {
 
 		const newProperty = new Property(propertyData);
 		await newProperty.save();
-
+		
 		return Response.redirect(
 			`${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`
 		);

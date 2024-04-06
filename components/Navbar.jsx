@@ -24,6 +24,12 @@ const Navbar = () => {
         };
 
         setAuthProviders();
+
+        // closes mobile menu if the viewport size is changed
+        window.addEventListener('resize', () => {
+            setIsMobileMenuOpen(false);
+        });
+
     }, []);
 
     return (

@@ -47,6 +47,7 @@ const PropertyPage = () => {
         );
     }
 
+
     return (
         <>
             {loading && <Spinner loading={loading} />}
