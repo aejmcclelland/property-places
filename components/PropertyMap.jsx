@@ -13,7 +13,6 @@ const PropertyMap = ({ property }) => {
     // NOTE: here the viewport state is never used, so has been removed
     const [loading, setLoading] = useState(true);
     const [geocodeError, setGeocodeError] = useState(false);
-    const [geocodingError, setGeocodingError] = useState(false);
 
     setDefaults({
         key: process.env.NEXT_PUBLIC_GOOGLE_GEOCODING_API_KEY,
@@ -22,46 +21,41 @@ const PropertyMap = ({ property }) => {
     });
 
     useEffect(() => {
-        const fetchCoordinates = async () => {
+        const fetchCoords = async () => {
             try {
-                const response = await fromAddress(
-                    `${property.location.street} ${property.location.city}, ${property.location.state} ${property.zip}`
+                const res = await fromAddress(
+                    `${property.location.street} ${property.location.city} ${property.location.state} ${property.location.zipcode}`
                 );
 
-                if (response.results.length === 0) {
-                    // No results found, handle this case
-                    setGeocodingError(true);
+                //  Check for results
+                if (res.results.length === 0) {
+                    // No results found
+                    setGeocodeError(true);
                     setLoading(false);
                     return;
                 }
 
-                const { lat, lng } = response.results[0].geometry.location;
+                const { lat, lng } = res.results[0].geometry.location;
+
                 setLat(lat);
                 setLng(lng);
-                setViewport({
-                    ...viewport,
-                    latitude: lat,
-                    longitude: lng,
-                });
 
                 setLoading(false);
             } catch (error) {
-                // Handle any errors that occur during geocoding
-                console.error('Geocoding error:', error);
-                setGeocodingError(true);
+                console.log(error);
+                setGeocodeError(true);
                 setLoading(false);
             }
         };
-        fetchCoordinates();
-    }, []);
 
+        fetchCoords();
+    }, []);
 
     if (loading) return <Spinner loading={loading} />;
 
     // Handle case where geocoding failed
-    if (geocodingError) {
-        // Handle the case where geocoding failed to find results
-        return <div>No location data available.</div>;
+    if (geocodeError) {
+        return <div className='text-xl'>No location data found</div>;
     }
 
     return (
@@ -82,5 +76,4 @@ const PropertyMap = ({ property }) => {
         </Map>
     );
 };
-export default PropertyMap
-
+export default PropertyMap;
