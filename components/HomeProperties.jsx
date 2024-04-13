@@ -1,12 +1,13 @@
-import { fetchProperties } from '@/utils/requests';
+
 import PropertyCard from '@/components/PropertyCard';
 import Link from 'next/link'
-
+import connectDB from '@/config/database';
+import Property from '@/models/Property';
 
 const HomeProperties = async () => {
-    const properties = await fetchProperties();
+    await connectDB();
 
-    const recentProperties = properties
+    const recentProperties = await Property.find({})
         .sort(() => Math.random() - Math.random())
         .slice(0, 3);
 
