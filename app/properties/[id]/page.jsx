@@ -1,19 +1,18 @@
-// This file is used to render the page for a specific property.
+// This file is used to render the page for 
 'use client';
-import PropertyHeaderImage from "@/components/PropertyHeaderImage";
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
-import PropertyDetails from '@/components/PropertyDetails';
-import Spinner from '@/components/Spinner';
-import PropertyImages from "@/components/PropertyImages";
-import {
-    FaArrowLeft,
-} from 'react-icons/fa';
 import { fetchProperty } from '@/utils/requests';
+import PropertyHeaderImage from '@/components/PropertyHeaderImage';
+import PropertyDetails from '@/components/PropertyDetails';
+import PropertyImages from '@/components/PropertyImages';
 import BookmarkButton from '@/components/BookmarkButton';
-import ShareButtons from '@/components/ShareButtons';
 import PropertyContactForm from '@/components/PropertyContactForm';
+import ShareButtons from '@/components/ShareButtons';
+import Spinner from '@/components/Spinner';
+import { FaArrowLeft } from 'react-icons/fa';
+
 
 
 const PropertyPage = () => {
@@ -48,7 +47,6 @@ const PropertyPage = () => {
         );
     }
 
-
     return (
         <>
             {loading && <Spinner loading={loading} />}
@@ -71,7 +69,7 @@ const PropertyPage = () => {
                                 <PropertyDetails property={property} />
                                 <aside className='space-y-4'>
                                     <BookmarkButton property={property} />
-                                    <ShareButtons property={property} />
+                                    <ShareButtons property={property} PUBLIC_DOMAIN={PUBLIC_DOMAIN} />
                                     <PropertyContactForm property={property} />
                                 </aside>
                             </div>

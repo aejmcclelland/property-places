@@ -1,16 +1,13 @@
-
+import Link from 'next/link';
 import PropertyCard from '@/components/PropertyCard';
-import Link from 'next/link'
-import connectDB from '@/config/database';
-import Property from '@/models/Property';
+import { fetchProperties } from '@/utils/requests';
 
 const HomeProperties = async () => {
-    await connectDB();
+    const data = await fetchProperties();
 
-    const recentProperties = await Property.find({})
+    const recentProperties = data.properties
         .sort(() => Math.random() - Math.random())
         .slice(0, 3);
-
 
     return (
         <>
@@ -40,7 +37,6 @@ const HomeProperties = async () => {
                 </Link>
             </section>
         </>
-    )
-}
-
-export default HomeProperties
+    );
+};
+export default HomeProperties;
