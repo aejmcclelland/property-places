@@ -3,11 +3,18 @@ import PropertyCard from '@/components/PropertyCard';
 import { fetchProperties } from '@/utils/requests';
 
 const HomeProperties = async () => {
-    const data = await fetchProperties();
+    const properties = await fetchProperties();
+    // Check if properties is an array
+    if (!Array.isArray(properties)) {
+        console.error('Error: Invalid properties data');
+        return null; // Or handle the error accordingly
+    }
 
-    const recentProperties = data.properties
-        .sort(() => Math.random() - Math.random())
-        .slice(0, 3);
+    // Shuffle the properties array
+    const shuffledProperties = properties.sort(() => Math.random() - 0.5);
+
+    // Select the first 3 properties
+    const recentProperties = shuffledProperties.slice(0, 3);
 
     return (
         <>

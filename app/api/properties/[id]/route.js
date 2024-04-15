@@ -3,7 +3,10 @@ import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 import cloudinary from '@/config/cloudinary';
 
-//GET  /api/properties/:id
+// NOTE: here we need to send back a Content-Type: application/json response
+// header rather than a text/plain header.
+
+// GET /api/properties/:id
 export const GET = async (request, { params }) => {
 	try {
 		await connectDB();
@@ -12,15 +15,19 @@ export const GET = async (request, { params }) => {
 
 		if (!property) return new Response('Property Not Found', { status: 404 });
 
-		return new Response(JSON.stringify(property), { status: 200 });
+		return new Response(JSON.stringify(property), {
+			status: 200,
+		});
 	} catch (error) {
 		console.log(error);
-		return new Response('Something went wrong', { status: 500 });
+		return new Response('Something Went Wrong', { status: 500 });
 	}
 };
 
 // DELETE /api/properties/:id
-export const DELETE = async (request, { params }) => {
+// NOTE: Here we also need to delete images from Cloudinary
+
+export const DELETE = async (_, { params }) => {
 	try {
 		const propertyId = params.id;
 
@@ -57,6 +64,7 @@ export const DELETE = async (request, { params }) => {
 			}
 		}
 
+		// Proceed with property deletion
 		await property.deleteOne();
 
 		return new Response('Property Deleted', {
@@ -72,22 +80,29 @@ export const DELETE = async (request, { params }) => {
 export const PUT = async (request, { params }) => {
 	try {
 		await connectDB();
+
 		const sessionUser = await getSessionUser();
 
 		if (!sessionUser || !sessionUser.userId) {
 			return new Response('User ID is required', { status: 401 });
 		}
+
 		const { id } = params;
-		const { userId } = await getSessionUser();
+		const { userId } = sessionUser;
+
 		const formData = await request.formData();
 
-		// Access all values for amenities
+		// Access all values from amenities
 		const amenities = formData.getAll('amenities');
 
-		// Fetch the existing property's data
+		// Get property to update
 		const existingProperty = await Property.findById(id);
 
-		// Check if the user is the owner of the property
+		if (!existingProperty) {
+			return new Response('Property does not exist', { status: 404 });
+		}
+
+		// Verify ownership
 		if (existingProperty.owner.toString() !== userId) {
 			return new Response('Unauthorized', { status: 401 });
 		}

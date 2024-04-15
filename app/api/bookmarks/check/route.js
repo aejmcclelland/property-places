@@ -18,10 +18,10 @@ export const POST = async (request) => {
 
 		const { userId } = sessionUser;
 
-		// Find the user by their session ID
+		// Find user in database
 		const user = await User.findOne({ _id: userId });
 
-		// Check if the property is already bookmarked
+		// Check if property is bookmarked
 		let isBookmarked = user.bookmarks.includes(propertyId);
 
 		return new Response(JSON.stringify({ isBookmarked }), {

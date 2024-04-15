@@ -5,7 +5,7 @@ import { getSessionUser } from '@/utils/getSessionUser';
 
 export const dynamic = 'force-dynamic';
 
-//GET  /api/bookmarks/
+// GET /api/bookmarks
 export const GET = async () => {
 	try {
 		await connectDB();
@@ -45,21 +45,21 @@ export const POST = async (request) => {
 
 		const { userId } = sessionUser;
 
-		// Find the user by their session ID
+		// Find user in database
 		const user = await User.findOne({ _id: userId });
 
-		// Check if the property is already bookmarked
+		// Check if property is bookmarked
 		let isBookmarked = user.bookmarks.includes(propertyId);
 
 		let message;
 
 		if (isBookmarked) {
-			// If already bookmarked, remove it from bookmarks
+			// If already bookmarked, remove it
 			user.bookmarks.pull(propertyId);
 			message = 'Bookmark removed successfully';
 			isBookmarked = false;
 		} else {
-			// If not bookmarked, add it to bookmarks
+			// If not bookmarked, add it
 			user.bookmarks.push(propertyId);
 			message = 'Bookmark added successfully';
 			isBookmarked = true;
