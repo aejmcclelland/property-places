@@ -12,6 +12,7 @@ import ShareButtons from '@/components/ShareButtons';
 import Spinner from '@/components/Spinner';
 import { FaArrowLeft } from 'react-icons/fa';
 
+
 const PropertyPage = () => {
     const { id } = useParams();
 
@@ -43,10 +44,11 @@ const PropertyPage = () => {
             </h1>
         );
     }
+
     return (
         <>
             {loading && <Spinner loading={loading} />}
-            {!loading && property && (
+            {!loading && property && property.images && property.images.length > 0 && (
                 <>
                     <PropertyHeaderImage image={property.images[0]} />
                     <section>
