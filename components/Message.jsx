@@ -34,18 +34,22 @@ const Message = ({ message }) => {
 
     const handleDeleteClick = async () => {
         try {
-            const res = await fetch(`/api/messages/${message._id}`, { method: 'DELETE', });
+            const res = await fetch(`/api/messages/${message._id}`, {
+                method: 'DELETE',
+            });
             if (res.status === 200) {
                 setIsDeleted(true);
+                setUnreadCount((prev) => prev - 1);
                 toast.success('Message deleted');
             }
         } catch (error) {
             console.error(error);
             toast.error('Error deleting message');
-
         }
-        if (isDeleted) { return null; }
-    }
+        if (isDeleted) {
+            return null;
+        }
+    };
     return (
         <div className='relative bg-white p-4 rounded-md shadow-md border border-gray-200'>
             {!isRead && (
