@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import AuthProvider from '@/components/AuthProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GlobalProvider } from '@/contexts/GlobalContext';
 
 export const metadata = {
     title: 'PropertyPlaces',
@@ -13,16 +14,18 @@ import React from 'react'
 
 const MainLayout = ({ children }) => {
     return (
-        <AuthProvider>
-            <html lang='en'>
-                <body>
-                    <Navbar />
-                    <main>{children}</main>
-                    <Footer />
-                    <ToastContainer />
-                </body>
-            </html>
-        </AuthProvider>
+        <GlobalProvider>
+            <AuthProvider>
+                <html lang='en'>
+                    <body>
+                        <Navbar />
+                        <main>{children}</main>
+                        <Footer />
+                        <ToastContainer />
+                    </body>
+                </html>
+            </AuthProvider>
+        </GlobalProvider>
 
     )
 }
