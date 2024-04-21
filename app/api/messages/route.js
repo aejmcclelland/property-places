@@ -26,7 +26,7 @@ export const GET = async (request) => {
 			.populate('property', 'name');
 		const messages = [...readMessages, ...UnReadMessages];
 
-		return Response.json(messages, { status: 200 });
+		return Response.json(messages);
 	} catch (error) {
 		console.log(error);
 		return new Response('Something went wrong', { status: 500 });
@@ -50,12 +50,7 @@ export const POST = async (request) => {
 
 		//Can not send message to self
 		if (user.id === recipient) {
-			return new Response(
-				JSON.stringify({ message: 'Cannot send a message to yourself' }),
-				{
-					status: 400,
-				}
-			);
+			return Response.json({ message: 'Cannot send a message to yourself' });
 		}
 		//Create a new message
 		const newMessage = new Message({
@@ -71,9 +66,7 @@ export const POST = async (request) => {
 		// Save message
 		await newMessage.save();
 
-		return new Response(JSON.stringify({ message: 'Message sent' }), {
-			status: 200,
-		});
+		return new Response.json({ message: 'Message sent' });
 	} catch (error) {
 		return new Response(JSON.stringify({ message: error.message }), {
 			status: 500,

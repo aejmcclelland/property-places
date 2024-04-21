@@ -3,9 +3,6 @@ import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 import cloudinary from '@/config/cloudinary';
 
-// NOTE: here we need to send back a Content-Type: application/json response
-// header rather than a text/plain header.
-
 // GET /api/properties/:id
 export const GET = async (request, { params }) => {
 	try {
@@ -23,7 +20,6 @@ export const GET = async (request, { params }) => {
 };
 
 // DELETE /api/properties/:id
-// NOTE: Here we also need to delete images from Cloudinary
 
 export const DELETE = async (_, { params }) => {
 	try {
