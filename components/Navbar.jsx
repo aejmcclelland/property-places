@@ -34,7 +34,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav className='bg-blue-700 border-b border-blue-500'>
+        <nav className='bg-red-700 border-b border-red-500'>
             <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
                 <div className='relative flex h-20 items-center justify-between'>
                     <div className='absolute inset-y-0 left-0 flex items-center md:hidden'>
@@ -71,7 +71,7 @@ const Navbar = () => {
                             <Image className='h-10 w-auto' src={logo} alt='PropertyPulse' />
 
                             <span className='hidden md:block text-white text-2xl font-bold ml-2'>
-                                PropertyPulse
+                                PropertyPlaces
                             </span>
                         </Link>
                         {/* <!-- Desktop Menu Hidden below md screens --> */}
@@ -79,21 +79,21 @@ const Navbar = () => {
                             <div className='flex space-x-2'>
                                 <Link
                                     href='/'
-                                    className={`${pathname === '/' ? 'bg-black' : ''
-                                        } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}>
+                                    className={`${pathname === '/' ? 'bg-red' : ''
+                                        } text-white hover:bg-red-600 hover:text-white rounded-md px-3 py-2`}>
                                     Home
                                 </Link>
                                 <Link
                                     href='/properties'
-                                    className={`${pathname === '/properties' ? 'bg-black' : ''
-                                        } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}>
+                                    className={`${pathname === '/properties' ? 'bg-red' : ''
+                                        } text-white hover:bg-red-600 hover:text-white rounded-md px-3 py-2`}>
                                     Properties
                                 </Link>
                                 {session && (
                                     <Link
                                         href='/properties/add'
-                                        className={`${pathname === '/properties/add' ? 'bg-black' : ''
-                                            } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}>
+                                        className={`${pathname === '/properties/add' ? 'bg-red' : ''
+                                            } text-white hover:bg-red-600 hover:text-white rounded-md px-3 py-2`}>
                                         Add Property
                                     </Link>
                                 )}
