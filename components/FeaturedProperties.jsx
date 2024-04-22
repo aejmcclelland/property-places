@@ -6,7 +6,7 @@ const FeaturedProperties = async () => {
     console.log(properties);
     return (
         properties.length > 0 && (
-            <section className='bg-blue-50 px-4 pt-6 pb-10'>
+            <section className='bg-red-50 px-4 pt-6 pb-10'>
                 <div className='container-xl lg:container m-auto'>
                     <h2 className='text-3xl font-bold text-red-500 mb-6 text-center'>
                         Featured Properties
