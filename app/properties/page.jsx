@@ -1,8 +1,15 @@
 // Code: PropertiesPage component
 import PropertySearchForm from '@/components/PropertySearchForm';
 import Properties from '@/components/Properties';
+import Property from '@/models/Property';
+import connectDB from '@/config/database';
 
-const PropertiesPage = async () => {
+const PropertiesPage = async ({ searchParams: { pageSize = 6, page = 1 } }) => {
+    await connectDB();
+    const skip = (page - 1) * pageSize;
+
+    const total = await Property.countDocuments({});
+    const properties = await Property.find().skip(skip).limit(pageSize);
 
     return (
         <>
@@ -11,7 +18,12 @@ const PropertiesPage = async () => {
                     <PropertySearchForm />
                 </div>
             </section>
-            <Properties />
+            <Properties
+                properties={properties}
+                total={total}
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+            />
         </>
     );
 };
