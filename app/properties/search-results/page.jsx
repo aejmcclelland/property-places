@@ -1,47 +1,40 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import PropertyCard from '@/components/PropertyCard';
 import Spinner from '@/components/Spinner';
 import PropertySearchForm from '@/components/PropertySearchForm';
+import connectDB from '@/config/database';
+import Property from '@/models/Property';
+import { convertToSerializeableObject } from '@/utils/convertToObject';
 
-const SearchResultsPage = () => {
-    const searchParams = useSearchParams();
+const SearchResultsPage = async ({
+    searchParams: { location, propertyType },
+}) => {
+    await connectDB();
 
-    const [properties, setProperties] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    const location = searchParams.get('location');
-    const propertyType = searchParams.get('propertyType');
-
-    useEffect(() => {
-        const fetchSearchResults = async () => {
-            try {
-                const res = await fetch(
-                    `/api/properties/search?location=${location}&propertyType=${propertyType}`
-                );
-
-                if (res.status === 200) {
-                    const data = await res.json();
-                    setProperties(data);
-                } else {
-                    setProperties([]);
-                }
-            } catch (error) {
-                console.log(eror);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSearchResults();
-    }, [location, propertyType]);
+    const locationPattern = new RegExp(location, 'i');
+    // Match location pattern against database fields
+    let query = {
+        $or: [
+            { name: locationPattern },
+            { description: locationPattern },
+            { 'location.street': locationPattern },
+            { 'location.city': locationPattern },
+            { 'location.state': locationPattern },
+            { 'location.zipcode': locationPattern },
+        ],
+    };
+    // Only check for property if its not 'All'
+    if (propertyType && propertyType !== 'All') {
+        const typePattern = new RegExp(propertyType, 'i');
+        query.type = typePattern;
+    }
+    const propertiesQueryResults = await Property.find(query).lean();
+    const properties = convertToSerializeableObject(propertiesQueryResults);
 
     return (
         <>
-            <section className='bg-blue-700 py-4'>
+            <section className='bg-red-700 py-4'>
                 <div className='max-w-7xl mx-auto px-4 flex flex-col items-start sm:px-6 lg:px-8'>
                     <PropertySearchForm />
                 </div>
@@ -53,7 +46,7 @@ const SearchResultsPage = () => {
                     <div className='container-xl lg:container m-auto px-4 py-6'>
                         <Link
                             href='/properties'
-                            className='flex items-center text-blue-500 hover:underline mb-3'
+                            className='flex items-center text-gray-300 hover:underline mb-3'
                         >
                             <FaArrowAltCircleLeft className='mr-2 mb-1' /> Back To Properties
                         </Link>

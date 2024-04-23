@@ -1,20 +1,13 @@
 import Link from 'next/link';
 import PropertyCard from '@/components/PropertyCard';
-import { fetchProperties } from '@/utils/requests';
+import Property from '@/models/Property';
+import connectDB from '@/config/database';
 
 const HomeProperties = async () => {
-    const data = await fetchProperties();
-    // Check if properties is an array
-    if (!Array.isArray(data.properties)) {
-        console.error('Error: Invalid properties data');
-        return null; // Or handle the error accordingly
-    }
+    // Connect to the database
+    await connectDB();
 
-    // Shuffle the properties array
-    const shuffledProperties = data.properties.sort(() => Math.random() - 0.5);
-
-    // Select the first 3 properties
-    const recentProperties = shuffledProperties.slice(0, 3);
+    const recentProperties = await Property.find({}).sort({ createdAt: -1 }).limit(6).lean();
 
     return (
         <>
