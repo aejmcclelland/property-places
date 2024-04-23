@@ -6,6 +6,7 @@ import { getSessionUser } from '@/utils/getSessionUser';
 import { convertToSerializeableObject } from '@/utils/convertToObject';
 import Property from '@/models/Property';
 
+
 const ProfilePage = async () => {
     await connectDB();
 
