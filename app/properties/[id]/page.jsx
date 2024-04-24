@@ -5,7 +5,7 @@ import PropertyImages from '@/components/PropertyImages';
 import BookmarkButton from '@/components/BookmarkButton';
 import PropertyContactForm from '@/components/PropertyContactForm';
 import ShareButtons from '@/components/ShareButtons';
-import Spinner from '@/components/Spinner';
+
 import { FaArrowLeft } from 'react-icons/fa';
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
