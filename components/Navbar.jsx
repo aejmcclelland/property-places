@@ -75,7 +75,7 @@ const Navbar = () => {
                             <Image className='h-10 w-auto' src={logo} alt='Property Places' />
 
                             <span className='hidden md:block text-white text-2xl font-bold ml-2'>
-                                Property
+                                Property Places
                             </span>
                         </Link>
                         {/* <!-- Desktop Menu Hidden below md screens --> */}
