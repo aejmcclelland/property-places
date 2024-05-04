@@ -6,6 +6,11 @@ import { getSessionUser } from '@/utils/getSessionUser';
 import { convertToSerializeableObject } from '@/utils/convertToObject';
 import Property from '@/models/Property';
 
+// NOTE: This component has been changed to a server component and now fetches
+// the users properties by querying the database directly.
+// We use a new client component - ProfileProperties which takes state from this
+// page component and updates when a property is deleted by using a server
+// action.
 
 const ProfilePage = async () => {
     await connectDB();
@@ -22,7 +27,7 @@ const ProfilePage = async () => {
     const properties = propertiesDocs.map(convertToSerializeableObject);
 
     return (
-        <section className='bg-red-50'>
+        <section className='bg-blue-50'>
             <div className='container m-auto py-24'>
                 <div className='bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
                     <h1 className='text-3xl font-bold mb-4'>Your Profile</h1>
