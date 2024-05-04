@@ -20,5 +20,5 @@ const Properties = ({ properties, total, page, pageSize }) => {
         </section>
     );
 };
-
 export default Properties;
+

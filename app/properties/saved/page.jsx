@@ -3,6 +3,8 @@ import connectDB from '@/config/database';
 import User from '@/models/User';
 import { getSessionUser } from '@/utils/getSessionUser';
 
+// NOTE: In a server component we can query the DB directly without the need
+// for making a fetch request to a API route handler.
 
 const SavedPropertiesPage = async () => {
     await connectDB();
@@ -11,7 +13,7 @@ const SavedPropertiesPage = async () => {
 
     const { userId } = sessionUser;
 
-    // NOTE: Make one database query by using Model.populate
+    // NOTE: here we can make one database query by using Model.populate
     const { bookmarks } = await User.findById(userId)
         .populate('bookmarks')
         .lean();
@@ -33,5 +35,4 @@ const SavedPropertiesPage = async () => {
         </section>
     );
 };
-
 export default SavedPropertiesPage;
